@@ -1,22 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="EUC-KR">
-<title>POP(present of present)</title>
-<meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  
-  
-  <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600,200italic,600italic&subset=latin,vietnamese' rel='stylesheet' type='text/css'>
-  
- 
-  <script src="index.js"></script>
-  <script src="https://d3js.org/d3.v4.min.js"></script>
-  <script src="http://code.jquery.com/jquery-1.10.2.min.js" type="text/javascript"></script>
-  
+{% extends 'common.html' %}
+
+{% block content %}
 
 <style>
   .sheight{
@@ -98,7 +82,7 @@
 <nav class="navbar navbar-default">
  <div class="container-fluid">
   <ul class="nav navbar-nav">
-      <li class="active"><a href="#"><img src="pop1.jpg" class="img-thumbnail" width="80" height="30"></a></li>
+      <li class="active"><a href="#"><img src="{{common.host}}/static/images/pop1.jpg" class="img-thumbnail" width="80" height="30"></a></li>
       <li><a href="#">
       <form class="form-inline">
   <input type="text" class="input-small" placeholder="Email">
@@ -118,7 +102,7 @@
 
    <div class ="container-fluid">
        <div class = "col-sm-12, jumbotron text-center"> 
-       <img src="pop1.jpg" width="200" height="120">
+       <img src="{{common.host}}/static/images/pop1.jpg" width="200" height="120">
   <p>The Present Of Present</p>
   <form class="form-inline" >
     <input type="text" class="form-control" size="50" placeholder="Search what you want" required>
@@ -129,7 +113,7 @@
    
   
 
-<!-- bubble cloudºÎºĞ -->
+<!-- bubble cloudÂºÃÂºÃ -->
 <div align="center" id="back-color1">
  <svg width="960" height="900"></svg>
 <script>
@@ -216,7 +200,7 @@ d3.csv("flare2.csv", function(d) {
         <img src="dahyun.jpg" alt="New York" width="300" height="50">
         <div class="carousel-caption">
           <h3>News Image 1</h3>
-          <p>±â»ç¿¡ µé¾î°¡´Â ÀÌ¹ÌÁö ÆÄÀÏ Áı¾î³Ö±â1</p>
+          <p>Â±Ã¢Â»Ã§Â¿Â¡ ÂµÃ©Â¾Ã®Â°Â¡Â´Ã‚ Ã€ÃŒÂ¹ÃŒÃÃ¶ Ã†Ã„Ã€Ã ÃÃ½Â¾Ã®Â³Ã–Â±Ã¢1</p>
         </div>
       </div>
 
@@ -224,7 +208,7 @@ d3.csv("flare2.csv", function(d) {
         <img src="seolhyun.jpg" alt="Chicago" width="300" height="50">
         <div class="carousel-caption">
           <h3>News Image 2</h3>
-          <p>±â»ç¿¡ µé¾î°¡´Â ÀÌ¹ÌÁö ÆÄÀÏ Áı¾î³Ö±â2</p>
+          <p>Â±Ã¢Â»Ã§Â¿Â¡ ÂµÃ©Â¾Ã®Â°Â¡Â´Ã‚ Ã€ÃŒÂ¹ÃŒÃÃ¶ Ã†Ã„Ã€Ã ÃÃ½Â¾Ã®Â³Ã–Â±Ã¢2</p>
         </div>
       </div>
     
@@ -232,7 +216,7 @@ d3.csv("flare2.csv", function(d) {
         <img src="zzuwi.jpg" alt="Los Angeles" width="300" height="50">
         <div class="carousel-caption">
           <h3>News Image 3</h3>
-          <p>±â»ç¿¡ µé¾î°¡´Â ÀÌ¹ÌÁö ÆÄÀÏ Áı¾î³Ö±â 3</p>
+          <p>Â±Ã¢Â»Ã§Â¿Â¡ ÂµÃ©Â¾Ã®Â°Â¡Â´Ã‚ Ã€ÃŒÂ¹ÃŒÃÃ¶ Ã†Ã„Ã€Ã ÃÃ½Â¾Ã®Â³Ã–Â±Ã¢ 3</p>
         </div>
       </div>
     </div>
@@ -256,4 +240,4 @@ d3.csv("flare2.csv", function(d) {
 
    
 </body>
-</html>
+{% endblock content %}

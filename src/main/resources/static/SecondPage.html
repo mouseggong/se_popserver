@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>SecondPage</title>
+ <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+   <link rel="stylesheet" href="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/css/bootstrap.min.css">
+  
+  
+  <!-- 요기는 뉴스리스트의 템플릿구현 -->
+  
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="http://localhost:8083/we/test1.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+  
+ 
+  
+  <!-- 요게 트리박어넣을거 -->
+    <link type="text/css" rel="stylesheet" href="style.css"/>
+    <script type="text/javascript" src="d3.js"></script>
+    <script type="text/javascript" src="d3.layout.js"></script>
+    
+    <style type="text/css">
+     #back-color1{
+      background-image:url("blur1.jpg");
+    }
+    
+     .fixed-panel{
+     min-height:30px;
+     max-height:400px;
+     overflow-y:scroll;
+   }
+    
+    </style>
+  
+  <style>
+  
+  body{
+     background: #eee;
+  }
+             
+        .node circle {
+  cursor: pointer;
+  fill: #fff;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+.node text {
+  font-size: 11px;
+}
+
+path.link {
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 1.5px;
+}
+
+ #display{
+     height: 500px;
+     width:500px;
+     border: 8px solid black;
+     overflow: auto;
+   }
+  </style>
+  
+ 
+   
+  <!-- spline chart -->
+  <script type="text/javascript">
+		window.onload = function () {
+			var chart = new CanvasJS.Chart("chartContainer", {
+				title: {
+					text: "Basic Spline Chart"
+				},
+				data: [{
+					type: "spline",
+					dataPoints: [
+					  { x: 10, y: 230 },
+					  { x: 20, y: 710 },
+					  { x: 30, y: 380 },
+					  { x: 40, y: 567 },
+					  { x: 50, y: 280 },
+					  { x: 60, y: 507 },
+					  { x: 70, y: 680 },
+					  { x: 80, y: 287 },
+					  { x: 90, y: 460 },
+					  { x: 100, y: 509 }
+					]
+				}]
+			});
+			chart.render();
+		}
+	</script>
+    <script src="canvasjs.min.js"></script>
+    
+  
+  
+</head>
+<body>
+  
+  <nav class = "navbar navbar-inverse">
+   <div class = "container-fluid">
+    <div class = "navbar-header">
+     <a class="navbar-brand" href="#"><img src="pop1.jpg" width="100" height="40"></a>
+    <form class="form-inline">
+    <input type="text" class="form-control" size="50" placeholder="Search what you want" required>
+    <button type="button" class="btn btn-danger">Search</button>
+    </form>
+    </div>
+   </div>
+  </nav>
+  
+  
+ 
+  <div class="row">
+    <div class="col-sm-6">  
+      <div class="container-fluid">
+       <h3>Bubble news List</h3>
+        <div class="panel panel-default">
+        <div class="panel-heading">This is bubble news</div>
+        <div class="panel-body fixed-panel">
+        <div class="news_list">
+		<div class="news_item">
+			<img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fncc.phinf.naver.net%2F20160413_119%2F14605088779818khzN_JPEG%2F113030.jpg&type=f80_80_re24" class="image">
+		</img>
+		<div class="body">
+			<div class="head">
+				<a href="" class="title">
+					탱탱한 속근육을 완성하는 운동법 - HEALTH
+				</a>
+				<p class="date">
+					2016.04.01
+				</p>
+			</div>
+			<div class="content">
+				코어를 튼튼하게 하기 위해서는 버티는 능력을 강화하는 것이 효과적인데, 버티기 운동의 정점이 바로 ‘플랭크’다. 플랭크란 말 그대로 몸을 ‘널빤지(plank)’처럼 곧게 펴고 버티는 운동으로...
+			</div>
+			<div class="tail">
+				세계일보
+			</div>
+		</div>
+		</div>
+		<div class="news_item">
+			<img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fncc.phinf.naver.net%2F20160413_119%2F14605088779818khzN_JPEG%2F113030.jpg&type=f80_80_re24" class="image">
+		</img>
+		<div class="body">
+			<div class="head">
+				<a href="" class="title">
+					탱탱한 속근육을 완성하는 운동법 - HEALTH
+				</a>
+				<p class="date">
+					2016.04.01
+				</p>
+			</div>
+			<div class="content">
+				코어를 튼튼하게 하기 위해서는 버티는 능력을 강화하는 것이 효과적인데, 버티기 운동의 정점이 바로 ‘플랭크’다. 플랭크란 말 그대로 몸을 ‘널빤지(plank)’처럼 곧게 펴고 버티는 운동으로...
+			</div>
+			<div class="tail">
+				세계일보
+			</div>
+		</div>
+		</div>
+		<div class="news_item">
+			<img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fncc.phinf.naver.net%2F20160413_119%2F14605088779818khzN_JPEG%2F113030.jpg&type=f80_80_re24" class="image">
+		<div class="body">
+			<div class="head">
+				<a href="" class="title">
+					탱탱한 속근육을 완성하는 운동법 - HEALTH
+				</a>
+				<p class="date">
+					2016.04.01
+				</p>
+			</div>
+			<div class="content">
+				코어를 튼튼하게 하기 위해서는 버티는 능력을 강화하는 것이 효과적인데, 버티기 운동의 정점이 바로 ‘플랭크’다. 플랭크란 말 그대로 몸을 ‘널빤지(plank)’처럼 곧게 펴고 버티는 운동으로...
+			</div>
+			<div class="tail">
+				세계일보
+			</div>
+		</div>
+		</div>
+		<div class="news_item">
+			<img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fncc.phinf.naver.net%2F20160413_119%2F14605088779818khzN_JPEG%2F113030.jpg&type=f80_80_re24" class="image">
+		</img>
+		<div class="body">
+			<div class="head">
+				<a href="" class="title">
+					탱탱한 속근육을 완성하는 운동법 - HEALTH
+				</a>
+				<p class="date">
+					2016.04.01
+				</p>
+			</div>
+			<div class="content">
+				코어를 튼튼하게 하기 위해서는 버티는 능력을 강화하는 것이 효과적인데, 버티기 운동의 정점이 바로 ‘플랭크’다. 플랭크란 말 그대로 몸을 ‘널빤지(plank)’처럼 곧게 펴고 버티는 운동으로...
+			</div>
+			<div class="tail">
+				세계일보
+			</div>
+		</div>
+	    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+ </div>
+ 
+
+    
+    
+    
+    <div class="col-sm-6">
+     <div class = "container-fluid">
+      <h3>Keyword Graph</h3>
+        <div class="panel panel-default">
+        <div class="panel-heading">Keyword chart</div>
+       <div id="chartContainer" style="height: 400px; width: 100%;"></div>
+        </div>
+        
+     </div>
+    </div>
+ </div>
+   
+    
+ 
+  <div class="row">
+   <div class="col-sm-6">
+    <h3 class="text-success">The Keyword Tree</h3>
+    
+    <div id="body">
+      <div id="footer">
+      </div>
+    </div>
+     <script type="text/javascript">
+
+var m = [20, 120, 20, 120],
+    w = 1280 - m[1] - m[3],
+    h = 800 - m[0] - m[2],
+    i = 0,
+    root;
+
+var tree = d3.layout.tree()
+    .size([h, w]);
+
+var diagonal = d3.svg.diagonal()
+    .projection(function(d) { return [d.y, d.x]; });
+
+var vis = d3.select("#body").append("svg:svg")
+    .attr("width", w + m[1] + m[3])
+    .attr("height", h + m[0] + m[2])
+  .append("svg:g")
+    .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
+
+d3.json("treeflare.json", function(json) {
+  root = json;
+  root.x0 = h / 2;
+  root.y0 = 0;
+
+  function toggleAll(d) {
+    if (d.children) {
+      d.children.forEach(toggleAll);
+      toggle(d);
+    }
+  }
+
+  // Initialize the display to show a few nodes.
+  root.children.forEach(toggleAll);
+  toggle(root.children[1]);
+  toggle(root.children[1].children[2]);
+  toggle(root.children[9]);
+  toggle(root.children[9].children[0]);
+
+  update(root);
+});
+
+function update(source) {
+  var duration = d3.event && d3.event.altKey ? 5000 : 500;
+
+  // Compute the new tree layout.
+  var nodes = tree.nodes(root).reverse();
+
+  // Normalize for fixed-depth.
+  nodes.forEach(function(d) { d.y = d.depth * 180; });
+
+  // Update the nodes…
+  var node = vis.selectAll("g.node")
+      .data(nodes, function(d) { return d.id || (d.id = ++i); });
+
+  // Enter any new nodes at the parent's previous position.
+  var nodeEnter = node.enter().append("svg:g")
+      .attr("class", "node")
+      .attr("transform", function(d) { return "translate(" + source.y0 + "," + source.x0 + ")"; })
+      .on("click", function(d) { toggle(d); update(d); });
+
+  nodeEnter.append("svg:circle")
+      .attr("r", 1e-6)
+      .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
+
+  nodeEnter.append("svg:text")
+      .attr("x", function(d) { return d.children || d._children ? -10 : 10; })
+      .attr("dy", ".35em")
+      .attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
+      .text(function(d) { return d.name; })
+      .style("fill-opacity", 1e-6);
+
+  // Transition nodes to their new position.
+  var nodeUpdate = node.transition()
+      .duration(duration)
+      .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
+
+  nodeUpdate.select("circle")
+      .attr("r", 4.5)
+      .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
+
+  nodeUpdate.select("text")
+      .style("fill-opacity", 1);
+
+  // Transition exiting nodes to the parent's new position.
+  var nodeExit = node.exit().transition()
+      .duration(duration)
+      .attr("transform", function(d) { return "translate(" + source.y + "," + source.x + ")"; })
+      .remove();
+
+  nodeExit.select("circle")
+      .attr("r", 1e-6);
+
+  nodeExit.select("text")
+      .style("fill-opacity", 1e-6);
+
+  // Update the links…
+  var link = vis.selectAll("path.link")
+      .data(tree.links(nodes), function(d) { return d.target.id; });
+
+  // Enter any new links at the parent's previous position.
+  link.enter().insert("svg:path", "g")
+      .attr("class", "link")
+      .attr("d", function(d) {
+        var o = {x: source.x0, y: source.y0};
+        return diagonal({source: o, target: o});
+      })
+    .transition()
+      .duration(duration)
+      .attr("d", diagonal);
+
+  // Transition links to their new position.
+  link.transition()
+      .duration(duration)
+      .attr("d", diagonal);
+
+  // Transition exiting nodes to the parent's new position.
+  link.exit().transition()
+      .duration(duration)
+      .attr("d", function(d) {
+        var o = {x: source.x, y: source.y};
+        return diagonal({source: o, target: o});
+      })
+      .remove();
+
+  // Stash the old positions for transition.
+  nodes.forEach(function(d) {
+    d.x0 = d.x;
+    d.y0 = d.y;
+  });
+}
+
+// Toggle children.
+function toggle(d) {
+  if (d.children) {
+    d._children = d.children;
+    d.children = null;
+  } else {
+    d.children = d._children;
+    d._children = null;
+  }
+}
+
+    </script>
+     </div>
+   
+   
+   <div class="col-sm-6">
+   <div class="container-fluid">
+       <h3>Related news by reporter</h3>
+        <div class="panel panel-default">
+        <div class="panel-heading">News by reporters</div>
+        <div class="panel-body fixed-panel">
+        <div class="news_list">
+		<div class="news_item">
+			<img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fncc.phinf.naver.net%2F20160413_119%2F14605088779818khzN_JPEG%2F113030.jpg&type=f80_80_re24" class="image">
+		<div class="body">
+			<div class="head">
+				<a href="" class="title">
+					탱탱한 속근육을 완성하는 운동법 - HEALTH
+				</a>
+				<p class="date">
+					2016.04.01
+				</p>
+			</div>
+			<div class="content">
+				코어를 튼튼하게 하기 위해서는 버티는 능력을 강화하는 것이 효과적인데, 버티기 운동의 정점이 바로 ‘플랭크’다. 플랭크란 말 그대로 몸을 ‘널빤지(plank)’처럼 곧게 펴고 버티는 운동으로...
+			</div>
+			<div class="tail">
+				세계일보
+			</div>
+		</div>
+		</div>
+		<div class="news_item">
+			<img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fncc.phinf.naver.net%2F20160413_119%2F14605088779818khzN_JPEG%2F113030.jpg&type=f80_80_re24" class="image">
+		<div class="body">
+			<div class="head">
+				<a href="" class="title">
+					탱탱한 속근육을 완성하는 운동법 - HEALTH
+				</a>
+				<p class="date">
+					2016.04.01
+				</p>
+			</div>
+			<div class="content">
+				코어를 튼튼하게 하기 위해서는 버티는 능력을 강화하는 것이 효과적인데, 버티기 운동의 정점이 바로 ‘플랭크’다. 플랭크란 말 그대로 몸을 ‘널빤지(plank)’처럼 곧게 펴고 버티는 운동으로...
+			</div>
+			<div class="tail">
+				세계일보
+			</div>
+		</div>
+		</div>
+		<div class="news_item">
+			<img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fncc.phinf.naver.net%2F20160413_119%2F14605088779818khzN_JPEG%2F113030.jpg&type=f80_80_re24" class="image">
+		<div class="body">
+			<div class="head">
+				<a href="" class="title">
+					탱탱한 속근육을 완성하는 운동법 - HEALTH
+				</a>
+				<p class="date">
+					2016.04.01
+				</p>
+			</div>
+			<div class="content">
+				코어를 튼튼하게 하기 위해서는 버티는 능력을 강화하는 것이 효과적인데, 버티기 운동의 정점이 바로 ‘플랭크’다. 플랭크란 말 그대로 몸을 ‘널빤지(plank)’처럼 곧게 펴고 버티는 운동으로...
+			</div>
+			<div class="tail">
+				세계일보
+			</div>
+		</div>
+		</div>
+		<div class="news_item">
+			<img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fncc.phinf.naver.net%2F20160413_119%2F14605088779818khzN_JPEG%2F113030.jpg&type=f80_80_re24" class="image">
+		<div class="body">
+			<div class="head">
+				<a href="" class="title">
+					탱탱한 속근육을 완성하는 운동법 - HEALTH
+				</a>
+				<p class="date">
+					2016.04.01
+				</p>
+			</div>
+			<div class="content">
+				코어를 튼튼하게 하기 위해서는 버티는 능력을 강화하는 것이 효과적인데, 버티기 운동의 정점이 바로 ‘플랭크’다. 플랭크란 말 그대로 몸을 ‘널빤지(plank)’처럼 곧게 펴고 버티는 운동으로...
+			</div>
+			<div class="tail">
+				세계일보
+			</div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+   </div>   <!-- panel-body까지 -->  
+        
+        
+    
+        
+
+        </div>
+      </div>
+   
+   
+  
+ 
+
+
+<script>
+    (function ($) {
+        function init() {
+            $('.easy-tree').EasyTree({
+                addable: true,
+                editable: true,
+                deletable: true
+            });
+        }
+
+        window.onload = init();
+    })(jQuery)
+</script>
+
+
+</body>
+</html>

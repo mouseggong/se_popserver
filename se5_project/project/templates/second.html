@@ -1,18 +1,71 @@
 {% extends 'common.html' %}
 
 {% block content %}
-<style type="text/css">
-  
-  .fixed-panel{
-   min-height:30px;
-   max-height:400px;
-   overflow-y:scroll;
- }
- 
-</style>
+<script>
+  $(window).ready(function(){
+      //$(document).ready(function()
+      //document를 파라미터로 넘기면, 
+      //태그등이 셋팅이 완료되었을때의 시점에 이벤트를 
+      //발생 
+      //$(window).ready(function()
+      //모든 리소스, 즉 이미지 플래시, 등등 문서에 포함되는 
+      //모든 소스가 로딩이 완료되는 시점에 이벤트를 발생시킨다.
+      get_news_list(function(data){
+        //data배열 !
+        $.each(data,function(key,value){
+          //each함수는 배열과 객체를 순회할 목적으로 쓰인다.
+          //배열내 모든 요소에서 function을 수행하고
+          //key에 배열에 인덱스를 전달, value에는 배열에 데이터가 전달됨.
+         //console.log(key);
+          //console.log(value);
+          var item = '<div class="news_item">';
+          if(value.photo_url=="getPhoto_url Error"){
+            console.log(value.photo_url);
+          }else{
+            item+='<img src="';
+            item+=value.photo_url;
+            item+='" class="image">';
+          }
+          item+='<div class="body">';
+          item+='<div class="head">';
+          item+='<a href="';
+          item+=value.url;
+          item+='" class="title" target="_blank">'; //원본 뉴스 URL넣기
+          item+=value.title;
+          item+='</a>';
+          item+='<p class="date">';
+          item+=value.date;
+          item+='</p>';
+          item+='</div>';
+          item+='<div class="content">';
+          item+=value.body;
+          item+='</div>';
+          item+='<div class="tail">';
+          item+=value.reporter;
+          item+='</div>';
+          item+='</div>';
+          item+='</div>';
+          //console.log(item);
+          $("#news_list").append(item); //news_list클래스에 추가
+          $("#news_list_byreporter").append(item); //news_list클래스에 추가
+        });
+      });
+    });
 
-<style>
-  
+  </script>
+
+  <style type="text/css">
+
+    .fixed-panel{
+     min-height:30px;
+     max-height:400px;
+     overflow-y:scroll;
+   }
+
+ </style>
+
+ <style>
+
   body{
    background: #eee;
  }
@@ -49,11 +102,11 @@ path.link {
   window.onload = function () {
    var chart = new CanvasJS.Chart("chartContainer", {
     title: {
-     text: "Basic Spline Chart"
+     text: "Recent keyword trends"
    },
    data: [{
      type: "spline",
-     dataPoints: [
+     dataPoints: [  // x에는 날짜,  Y는 Count로 따진다.
      { x: 10, y: 230 },
      { x: 20, y: 710 },
      { x: 30, y: 380 },
@@ -70,20 +123,25 @@ path.link {
    chart.render();
  }
 </script>
-<script src="canvasjs.min.js"></script>
-
+<script>
+  $(window).ready(function(){
+    $("#searchbt").click(function(){
+      window.location="http://localhost:8000/second/"+$("#searchbar").val();
+    });
+  });
+</script>
 
 
 </head>
 <body>
-  
+
   <nav class = "navbar navbar-inverse">
    <div class = "container-fluid">
     <div class = "navbar-header">
-     <a class="navbar-brand" href="#"><img src="{{common.host}}/static/images/pop1.jpg" width="100" height="40"></a>
+     <a class="navbar-brand" href="http://localhost:8000"><img src="{{common.host}}/static/images/pop1.jpg" width="100" height="40"></a>
      <form class="form-inline">
-      <input type="text" class="form-control" size="50" placeholder="{{bubbleword}}" required>
-      <button type="button" class="btn btn-danger">Search</button>
+      <input type="text" id="searchbar" class="form-control" size="50" placeholder="Search what you want" required>
+    <button type="button" id="searchbt" class="btn btn-danger">Search</button>
     </form>
   </div>
 </div>
@@ -94,94 +152,16 @@ path.link {
 <div class="row">
   <div class="col-sm-6">  
     <div class="container-fluid">
-     <h3>Bubble news List</h3>
+     <h3>Bubble Newslist</h3>
      <div class="panel panel-default">
       <div class="panel-heading">This is bubble news</div>
       <div class="panel-body fixed-panel">
-        <div class="news_list">
-          <div class="news_item">
-           <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fncc.phinf.naver.net%2F20160413_119%2F14605088779818khzN_JPEG%2F113030.jpg&type=f80_80_re24" class="image">
-         </img>
-         <div class="body">
-           <div class="head">
-            <a href="" class="title">
-             ÅÊÅÊÇÑ ¼Ó±ÙÀ°À» ¿Ï¼ºÇÏ´Â ¿îµ¿¹ý - HEALTH
-           </a>
-           <p class="date">
-             2016.04.01
-           </p>
-         </div>
-         <div class="content">
-          ÄÚ¾î¸¦ Æ°Æ°ÇÏ°Ô ÇÏ±â À§ÇØ¼­´Â ¹öÆ¼´Â ´É·ÂÀ» °­È­ÇÏ´Â °ÍÀÌ È¿°úÀûÀÎµ¥, ¹öÆ¼±â ¿îµ¿ÀÇ Á¤Á¡ÀÌ ¹Ù·Î ¡®ÇÃ·©Å©¡¯´Ù. ÇÃ·©Å©¶õ ¸» ±×´ë·Î ¸öÀ» ¡®³ÎºþÁö(plank)¡¯Ã³·³ °ð°Ô Æì°í ¹öÆ¼´Â ¿îµ¿À¸·Î...
-        </div>
-        <div class="tail">
-          ¼¼°èÀÏº¸
+      <div class="news_list" id="news_list">
+
         </div>
       </div>
     </div>
-    <div class="news_item">
-     <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fncc.phinf.naver.net%2F20160413_119%2F14605088779818khzN_JPEG%2F113030.jpg&type=f80_80_re24" class="image">
-   </img>
-   <div class="body">
-     <div class="head">
-      <a href="" class="title">
-       ÅÊÅÊÇÑ ¼Ó±ÙÀ°À» ¿Ï¼ºÇÏ´Â ¿îµ¿¹ý - HEALTH
-     </a>
-     <p class="date">
-       2016.04.01
-     </p>
-   </div>
-   <div class="content">
-    ÄÚ¾î¸¦ Æ°Æ°ÇÏ°Ô ÇÏ±â À§ÇØ¼­´Â ¹öÆ¼´Â ´É·ÂÀ» °­È­ÇÏ´Â °ÍÀÌ È¿°úÀûÀÎµ¥, ¹öÆ¼±â ¿îµ¿ÀÇ Á¤Á¡ÀÌ ¹Ù·Î ¡®ÇÃ·©Å©¡¯´Ù. ÇÃ·©Å©¶õ ¸» ±×´ë·Î ¸öÀ» ¡®³ÎºþÁö(plank)¡¯Ã³·³ °ð°Ô Æì°í ¹öÆ¼´Â ¿îµ¿À¸·Î...
   </div>
-  <div class="tail">
-    ¼¼°èÀÏº¸
-  </div>
-</div>
-</div>
-<div class="news_item">
- <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fncc.phinf.naver.net%2F20160413_119%2F14605088779818khzN_JPEG%2F113030.jpg&type=f80_80_re24" class="image">
- <div class="body">
-   <div class="head">
-    <a href="" class="title">
-     ÅÊÅÊÇÑ ¼Ó±ÙÀ°À» ¿Ï¼ºÇÏ´Â ¿îµ¿¹ý - HEALTH
-   </a>
-   <p class="date">
-     2016.04.01
-   </p>
- </div>
- <div class="content">
-  ÄÚ¾î¸¦ Æ°Æ°ÇÏ°Ô ÇÏ±â À§ÇØ¼­´Â ¹öÆ¼´Â ´É·ÂÀ» °­È­ÇÏ´Â °ÍÀÌ È¿°úÀûÀÎµ¥, ¹öÆ¼±â ¿îµ¿ÀÇ Á¤Á¡ÀÌ ¹Ù·Î ¡®ÇÃ·©Å©¡¯´Ù. ÇÃ·©Å©¶õ ¸» ±×´ë·Î ¸öÀ» ¡®³ÎºþÁö(plank)¡¯Ã³·³ °ð°Ô Æì°í ¹öÆ¼´Â ¿îµ¿À¸·Î...
-</div>
-<div class="tail">
-  ¼¼°èÀÏº¸
-</div>
-</div>
-</div>
-<div class="news_item">
- <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fncc.phinf.naver.net%2F20160413_119%2F14605088779818khzN_JPEG%2F113030.jpg&type=f80_80_re24" class="image">
-</img>
-<div class="body">
- <div class="head">
-  <a href="" class="title">
-   ÅÊÅÊÇÑ ¼Ó±ÙÀ°À» ¿Ï¼ºÇÏ´Â ¿îµ¿¹ý - HEALTH
- </a>
- <p class="date">
-   2016.04.01
- </p>
-</div>
-<div class="content">
-  ÄÚ¾î¸¦ Æ°Æ°ÇÏ°Ô ÇÏ±â À§ÇØ¼­´Â ¹öÆ¼´Â ´É·ÂÀ» °­È­ÇÏ´Â °ÍÀÌ È¿°úÀûÀÎµ¥, ¹öÆ¼±â ¿îµ¿ÀÇ Á¤Á¡ÀÌ ¹Ù·Î ¡®ÇÃ·©Å©¡¯´Ù. ÇÃ·©Å©¶õ ¸» ±×´ë·Î ¸öÀ» ¡®³ÎºþÁö(plank)¡¯Ã³·³ °ð°Ô Æì°í ¹öÆ¼´Â ¿îµ¿À¸·Î...
-</div>
-<div class="tail">
-  ¼¼°èÀÏº¸
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
 </div>
 
 
@@ -229,13 +209,11 @@ path.link {
     .attr("height", h + m[0] + m[2])
     .append("svg:g")
     .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
-
-    d3.json("treeflare.json", function(json) {
+    d3.json("{{common.host}}/static/etc/treeflare.json", function(json) {
       root = json;
       root.x0 = h / 2;
       root.y0 = 0;
-
-      function toggleAll(d) {
+      function toggleAll(d) {// d = 노드의 내용
         if (d.children) {
           d.children.forEach(toggleAll);
           toggle(d);
@@ -244,10 +222,10 @@ path.link {
 
   // Initialize the display to show a few nodes.
   root.children.forEach(toggleAll);
-  toggle(root.children[1]);
-  toggle(root.children[1].children[2]);
-  toggle(root.children[9]);
-  toggle(root.children[9].children[0]);
+  toggle(root); // 노드 뒤집기
+  //toggle(root.children[1].children[2]);
+  //toggle(root.children[9]);
+  //toggle(root.children[9].children[0]);
 
   update(root);
 });
@@ -264,7 +242,6 @@ path.link {
   // Update the nodes¡¦
   var node = vis.selectAll("g.node")
   .data(nodes, function(d) { return d.id || (d.id = ++i); });
-
   // Enter any new nodes at the parent's previous position.
   var nodeEnter = node.enter().append("svg:g")
   .attr("class", "node")
@@ -363,86 +340,11 @@ function toggle(d) {
    <div class="panel panel-default">
     <div class="panel-heading">News by reporters</div>
     <div class="panel-body fixed-panel">
-      <div class="news_list">
-        <div class="news_item">
-         <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fncc.phinf.naver.net%2F20160413_119%2F14605088779818khzN_JPEG%2F113030.jpg&type=f80_80_re24" class="image">
-         <div class="body">
-           <div class="head">
-            <a href="" class="title">
-             ÅÊÅÊÇÑ ¼Ó±ÙÀ°À» ¿Ï¼ºÇÏ´Â ¿îµ¿¹ý - HEALTH
-           </a>
-           <p class="date">
-             2016.04.01
-           </p>
-         </div>
-         <div class="content">
-          ÄÚ¾î¸¦ Æ°Æ°ÇÏ°Ô ÇÏ±â À§ÇØ¼­´Â ¹öÆ¼´Â ´É·ÂÀ» °­È­ÇÏ´Â °ÍÀÌ È¿°úÀûÀÎµ¥, ¹öÆ¼±â ¿îµ¿ÀÇ Á¤Á¡ÀÌ ¹Ù·Î ¡®ÇÃ·©Å©¡¯´Ù. ÇÃ·©Å©¶õ ¸» ±×´ë·Î ¸öÀ» ¡®³ÎºþÁö(plank)¡¯Ã³·³ °ð°Ô Æì°í ¹öÆ¼´Â ¿îµ¿À¸·Î...
-        </div>
-        <div class="tail">
-          ¼¼°èÀÏº¸
-        </div>
+      <div class="news_list_byreporter" id="news_list_byreporter">
+
       </div>
     </div>
-    <div class="news_item">
-     <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fncc.phinf.naver.net%2F20160413_119%2F14605088779818khzN_JPEG%2F113030.jpg&type=f80_80_re24" class="image">
-     <div class="body">
-       <div class="head">
-        <a href="" class="title">
-         ÅÊÅÊÇÑ ¼Ó±ÙÀ°À» ¿Ï¼ºÇÏ´Â ¿îµ¿¹ý - HEALTH
-       </a>
-       <p class="date">
-         2016.04.01
-       </p>
-     </div>
-     <div class="content">
-      ÄÚ¾î¸¦ Æ°Æ°ÇÏ°Ô ÇÏ±â À§ÇØ¼­´Â ¹öÆ¼´Â ´É·ÂÀ» °­È­ÇÏ´Â °ÍÀÌ È¿°úÀûÀÎµ¥, ¹öÆ¼±â ¿îµ¿ÀÇ Á¤Á¡ÀÌ ¹Ù·Î ¡®ÇÃ·©Å©¡¯´Ù. ÇÃ·©Å©¶õ ¸» ±×´ë·Î ¸öÀ» ¡®³ÎºþÁö(plank)¡¯Ã³·³ °ð°Ô Æì°í ¹öÆ¼´Â ¿îµ¿À¸·Î...
-    </div>
-    <div class="tail">
-      ¼¼°èÀÏº¸
-    </div>
   </div>
-</div>
-<div class="news_item">
- <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fncc.phinf.naver.net%2F20160413_119%2F14605088779818khzN_JPEG%2F113030.jpg&type=f80_80_re24" class="image">
- <div class="body">
-   <div class="head">
-    <a href="" class="title">
-     ÅÊÅÊÇÑ ¼Ó±ÙÀ°À» ¿Ï¼ºÇÏ´Â ¿îµ¿¹ý - HEALTH
-   </a>
-   <p class="date">
-     2016.04.01
-   </p>
- </div>
- <div class="content">
-  ÄÚ¾î¸¦ Æ°Æ°ÇÏ°Ô ÇÏ±â À§ÇØ¼­´Â ¹öÆ¼´Â ´É·ÂÀ» °­È­ÇÏ´Â °ÍÀÌ È¿°úÀûÀÎµ¥, ¹öÆ¼±â ¿îµ¿ÀÇ Á¤Á¡ÀÌ ¹Ù·Î ¡®ÇÃ·©Å©¡¯´Ù. ÇÃ·©Å©¶õ ¸» ±×´ë·Î ¸öÀ» ¡®³ÎºþÁö(plank)¡¯Ã³·³ °ð°Ô Æì°í ¹öÆ¼´Â ¿îµ¿À¸·Î...
-</div>
-<div class="tail">
-  ¼¼°èÀÏº¸
-</div>
-</div>
-</div>
-<div class="news_item">
- <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fncc.phinf.naver.net%2F20160413_119%2F14605088779818khzN_JPEG%2F113030.jpg&type=f80_80_re24" class="image">
- <div class="body">
-   <div class="head">
-    <a href="" class="title">
-     ÅÊÅÊÇÑ ¼Ó±ÙÀ°À» ¿Ï¼ºÇÏ´Â ¿îµ¿¹ý - HEALTH
-   </a>
-   <p class="date">
-     2016.04.01
-   </p>
- </div>
- <div class="content">
-  ÄÚ¾î¸¦ Æ°Æ°ÇÏ°Ô ÇÏ±â À§ÇØ¼­´Â ¹öÆ¼´Â ´É·ÂÀ» °­È­ÇÏ´Â °ÍÀÌ È¿°úÀûÀÎµ¥, ¹öÆ¼±â ¿îµ¿ÀÇ Á¤Á¡ÀÌ ¹Ù·Î ¡®ÇÃ·©Å©¡¯´Ù. ÇÃ·©Å©¶õ ¸» ±×´ë·Î ¸öÀ» ¡®³ÎºþÁö(plank)¡¯Ã³·³ °ð°Ô Æì°í ¹öÆ¼´Â ¿îµ¿À¸·Î...
-</div>
-<div class="tail">
-  ¼¼°èÀÏº¸
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
 </div>   <!-- panel-body±îÁö -->  
 
 

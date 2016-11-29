@@ -9,3 +9,23 @@ function get_news_list(callback){ //콜백함수 들고간다.
 		callback(data); // 이걸 모르겠다. 데이터를 처리하는 루틴인듯?
 	});
 }
+function JSON2CSV(objArray) {
+	var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
+	var str = '';
+	var line = '';
+	for (var i = 0; i < array.length; i++) {
+		var line = '';
+		for (var index in array[i]) {
+			line+=index+',';
+			line += array[i][index] + '\n';
+		}	
+		line = line.slice(0, -1);
+		str += line + '\r\n';
+	}
+	return str;
+}     
+$("#convert").click(function() {
+	var json = $.parseJSON(url+"/tocsv");
+	var csv = JSON2CSV(json);
+	$("#csv").val(csv);
+});

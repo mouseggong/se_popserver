@@ -1,25 +1,27 @@
 package com.se.apiserver.entity;
 
 import javax.persistence.*;
-import java.util.Date;
 
-import static com.se.apiserver.entity.NewsContent.TABLE_NAME;
 
 /**
  * Created by LeeHyungRae on 2016. 11. 22..
  */
-@Entity(name=TABLE_NAME)
-public class NewsContent { // 디비에서 가져올때 디비를 생성한곳과 맞춰주는 곳 (알맞게 가져오기 위해)
+// 1번 테이블 - 전체 뉴스 들어갈 테이블 생성
+@Entity(name = NewsContent.TABLE_NAME)
+public class NewsContent {
+
     public static final String TABLE_NAME = "tbl_news";
     private static final String COL_TITLE = "title";
     private static final String COL_BODY = "body";
     private static final String COL_DATE = "date";
     private static final String COL_REPORTER = "reporter";
     private static final String COL_URL = "url";
+    private static final String COL_WORDCOUNT = "wordcount";
+    private static final String COL_PHOTO = "photo_url";
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private int nid;
 
     @Column(name = COL_TITLE,nullable = false)
     private String title;
@@ -28,24 +30,41 @@ public class NewsContent { // 디비에서 가져올때 디비를 생성한곳�
     private String body;
 
     @Column(name=COL_DATE)
-    private Date date;
+    private String date;
 
     @Column(name=COL_REPORTER)
     private String reporter;
 
-    @Column(name=COL_URL)
+    @Column(name=COL_URL, unique = true)
     private String url;
+
+    @Column(name=COL_WORDCOUNT)
+    private int wordcount;
+
+    @Column(name=COL_PHOTO)
+    private String photo_url;
 
     public NewsContent(){
 
     }
 
-    public NewsContent(String url,String title,String body,Date date,String reporter){
+    public NewsContent(String url,String title,String body,String date,String reporter, int wordcount, String photo_url){
         this.url = url;
         this.title = title;
         this.body = body;
         this.date = date;
         this.reporter = reporter;
+        this.wordcount = wordcount;
+        this.photo_url = photo_url;
+    }
+
+
+    public int getNid() {
+        return nid;
+    }
+
+    public void setNid(int nid) {
+        this.nid = nid;
     }
 
     public String getTitle() {
@@ -64,11 +83,11 @@ public class NewsContent { // 디비에서 가져올때 디비를 생성한곳�
         this.body = body;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
@@ -87,4 +106,12 @@ public class NewsContent { // 디비에서 가져올때 디비를 생성한곳�
     public void setUrl(String url){
         this.url = url;
     }
+
+    public int getWordcount() { return wordcount; }
+
+    public void setWordcount(int wordcount) { this.wordcount = wordcount; }
+
+    public void setPhoto_url(String photo_url) { this.photo_url = photo_url; }
+
+    public String getPhoto_url() { return photo_url; }
 }

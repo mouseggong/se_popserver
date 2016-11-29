@@ -139,9 +139,10 @@
   .size([width, width])
   .padding(1.5);
 
-  d3.csv("{{common.host}}/static/etc/flare2.csv", function(d) {
+  d3.csv("http://localhost:8080/search/keyword/박근혜", function(d) {
+  // d3.csv("{{common.host}}/static/etc/flare2.csv", function(d) {
+    console.log(d);
     d.value = +d.value; // 각 원의 값(크기 우린 TF-IDF값으로 가져와야 한다)
-    // console.log(d);
     if (d.value) return d;
   }, function(error, classes) {
     if (error) throw error;
@@ -179,6 +180,7 @@
     .attr("clip-path", function(d) { return "url(#clip-" + d.id + ")"; })
     .selectAll("tspan")
     .data(function(d) { return d.class.split(/(?=[A-Z][^A-Z])/g); })
+    // .data(function(d) { return d.class.split(/(?=[A-Z][^A-Z])/g); })
     .enter().append("tspan")
     .attr("x", 0)
     .attr("y", function(d, i, nodes) { return 13 + (i*2 - nodes.length / 2 - 0.5) * 10; })

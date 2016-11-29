@@ -12,7 +12,7 @@
       //$(window).ready(function()
       //모든 리소스, 즉 이미지 플래시, 등등 문서에 포함되는 
       //모든 소스가 로딩이 완료되는 시점에 이벤트를 발생시킨다.
-      get_news_list(function(data){
+      get_news_list("{{keyword}}",function(data){
         //data배열 !
         $.each(data,function(key,value){
           //each함수는 배열과 객체를 순회할 목적으로 쓰인다.

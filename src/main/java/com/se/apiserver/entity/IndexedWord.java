@@ -5,8 +5,8 @@ import javax.persistence.*;
 /**
  * Created by LeeHyungRae on 2016. 11. 27..
  */
-@Entity(name = AllNewsContent.TABLE_NAME )
-public class AllNewsContent {
+@Entity(name = IndexedWord.TABLE_NAME )
+public class IndexedWord {
 
     public static final String TABLE_NAME = "tbl_allnews";
     private static final String COL_WORD = "realword";
@@ -21,9 +21,9 @@ public class AllNewsContent {
 
     private int allcount;
 
-    public AllNewsContent(){}
+    public IndexedWord(){}
 
-    public AllNewsContent(String word, int allcount) {
+    public IndexedWord(String word, int allcount) {
         this.word = word;
         this.allcount = allcount;
     }
@@ -50,5 +50,18 @@ public class AllNewsContent {
 
     public void setAllcount(int allcount) {
         this.allcount = allcount;
+    }
+
+    @Override
+    public int hashCode() {
+        return wid;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj.hashCode()==this.hashCode())
+            return true;
+        else
+            return false;
     }
 }

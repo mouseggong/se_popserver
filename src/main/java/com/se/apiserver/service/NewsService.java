@@ -1,7 +1,7 @@
 package com.se.apiserver.service;
 
 import com.se.apiserver.entity.NewsContent;
-import com.se.apiserver.repository.NewsRepository;
+import com.se.apiserver.repository.NewsContentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,13 +17,18 @@ import java.util.ArrayList;
 public class NewsService { //컨트롤러에서 함수를 정의했다면 여기는 구현해 놓는 클래스
 
     @Autowired
-    NewsRepository newsRepository;
+    NewsContentRepository newsContentRepository;
 
     public ArrayList<NewsContent> findNewsById(ArrayList<Integer> newsIdList) throws Exception{
-        return (ArrayList<NewsContent>)newsRepository.findAll(newsIdList);
+        return (ArrayList<NewsContent>) newsContentRepository.findAll(newsIdList);
     }
-    //tf - idf 구하는 함수 추가
-//    public ArrayList<NewsContent> findTfIdfByWord(ArrayList<Integer> newsIdList) throws Exception{
-//        return (ArrayList<NewsContent>)newsRepository.findAll(newsIdList);
-//    }
+
+    /**
+     * 수집된 뉴스의 총 갯수를 리턴한다
+     * @return 수집된 뉴스의 총 갯수
+     */
+    public double getAllNewsCnt(){
+        return (double) newsContentRepository.count();
+    }
+
 }

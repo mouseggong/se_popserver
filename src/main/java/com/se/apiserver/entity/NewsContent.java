@@ -4,6 +4,7 @@ import javax.persistence.*;
 
 
 /**
+ * 모든 뉴스의 내용을 담고있는 테이블
  * Created by LeeHyungRae on 2016. 11. 22..
  */
 // 1번 테이블 - 전체 뉴스 들어갈 테이블 생성

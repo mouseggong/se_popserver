@@ -20,7 +20,7 @@
           //console.log(value);
           var item = '<div class="news_item">';
           if(value.photo_url=="getPhoto_url Error"){
-            console.log(value.photo_url);
+            //console.log(value.photo_url);
           }else{
             item+='<img src="';
             item+=value.photo_url;
@@ -61,6 +61,10 @@
      max-height:400px;
      overflow-y:scroll;
    }
+   .navbar-nav{
+    height:36px;
+    margin:15px;
+   }
 
  </style>
 
@@ -99,34 +103,80 @@ path.link {
 
 <!-- spline chart -->
 <script type="text/javascript">
-  window.onload = function () {
-   var chart = new CanvasJS.Chart("chartContainer", {
-    title: {
-     text: "Recent keyword trends"
-   },
-   data: [{
-     type: "spline",
-     dataPoints: [  // x에는 날짜,  Y는 Count로 따진다.
-     { x: 10, y: 230 },
-     { x: 20, y: 710 },
-     { x: 30, y: 380 },
-     { x: 40, y: 567 },
-     { x: 50, y: 280 },
-     { x: 60, y: 507 },
-     { x: 70, y: 680 },
-     { x: 80, y: 287 },
-     { x: 90, y: 460 },
-     { x: 100, y: 509 }
-     ]
-   }]
- });
-   chart.render();
- }
+   window.onload = function () {
+      var chart = new CanvasJS.Chart("chartContainer",
+      {
+
+         title:{
+            text: "The Keyword Chart",
+            fontSize: 30
+         },
+                        animationEnabled: true,
+         axisX:{
+
+            gridColor: "Silver",
+            tickColor: "silver",
+            valueFormatString: "DD/MMM"
+
+         },                        
+                        toolTip:{
+                          shared:true
+                        },
+         theme: "theme2",
+         axisY: {
+            gridColor: "Silver",
+            tickColor: "silver"
+         },
+         legend:{
+            verticalAlign: "center",
+            horizontalAlign: "right"
+         },
+         data: [
+         {        
+            type: "line",
+            showInLegend: true,
+            lineThickness: 2,
+            name: "Visits",
+            markerType: "square",
+            color: "#F08080",
+            dataPoints: [
+            { x: new Date(2010,0,3), y: 650 },
+            { x: new Date(2010,0,5), y: 700 },
+            { x: new Date(2010,0,7), y: 710 },
+            { x: new Date(2010,0,9), y: 658 },
+            { x: new Date(2010,0,11), y: 734 },
+            { x: new Date(2010,0,13), y: 963 },
+            { x: new Date(2010,0,15), y: 847 },
+            { x: new Date(2010,0,17), y: 853 },
+            { x: new Date(2010,0,28), y: 869 },
+            { x: new Date(2010,0,30), y: 943 },
+            { x: new Date(2010,2,1), y: 970 }
+            ]
+         }
+
+         
+         ],
+          legend:{
+            cursor:"pointer",
+            itemclick:function(e){
+              if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                 e.dataSeries.visible = false;
+              }
+              else{
+                e.dataSeries.visible = true;
+              }
+              chart.render();
+            }
+          }
+      });
+
+chart.render();
+}
 </script>
 <script>
   $(window).ready(function(){
     $("#searchbt").click(function(){
-      window.location="http://localhost:8000/second/"+$("#searchbar").val();
+      window.location="http://localhost:8000/third/"+$("#searchbar").val();
     });
   });
 </script>
@@ -134,18 +184,23 @@ path.link {
 
 </head>
 <body>
-
+<!-- 2번 째 page의 body에 있어서 첫 번째로 나오는 구성물. 
+   1page와 마찬가지로 검색인터페이스와 home으로 돌아갈 수 있
+    는 logo 이미지 배치 -->
+  
   <nav class = "navbar navbar-inverse">
    <div class = "container-fluid">
     <div class = "navbar-header">
-     <a class="navbar-brand" href="http://localhost:8000"><img src="{{common.host}}/static/images/pop1.jpg" width="100" height="40"></a>
-     <form class="form-inline">
-      <input type="text" id="searchbar" class="form-control" size="50" placeholder="Search what you want" required>
+     <a class="navbar-brand" href="http://localhost:8000"><img src="{{common.host}}/static/images/pop1.jpg" width="90" height="40"></a>
+    </div>
+    <ul class="navbar-nav">
+    <form class="form-inline">
+    <input type="text" id="searchbar" class="form-control" size="50" placeholder="Search what you want" required>
     <button type="button" id="searchbt" class="btn btn-danger">Search</button>
     </form>
-  </div>
-</div>
-</nav>
+    </ul>
+    </div>
+  </nav>
 
 
 
@@ -156,7 +211,7 @@ path.link {
      <div class="panel panel-default">
       <div class="panel-heading">This is bubble news</div>
       <div class="panel-body fixed-panel">
-      <div class="news_list" id="news_list">
+        <div class="news_list" id="news_list">
 
         </div>
       </div>
@@ -179,9 +234,6 @@ path.link {
 </div>
 </div>
 </div>
-
-
-
 <div class="row">
  <div class="col-sm-6">
   <h3 class="text-success">The Keyword Tree</h3>
@@ -190,6 +242,8 @@ path.link {
     <div id="footer">
     </div>
   </div>
+  <script src="{{common.host}}/static/js/common.js"></script> 
+  
   <script type="text/javascript">
 
     var m = [20, 120, 20, 120],
@@ -209,8 +263,8 @@ path.link {
     .attr("height", h + m[0] + m[2])
     .append("svg:g")
     .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
-    d3.json("http://localhost:8080/search/test", function(json) {
-    // d3.json("{{common.host}}/static/etc/treeflare.json", function(json) {
+    d3.json("http://localhost:8080/search/tree/"+"{{bubbleword}}", function(json) {
+     //d3.json("{{common.host}}/static/etc/treeflare.json", function(json) {
       root = json;
       root.x0 = h / 2;
       root.y0 = 0;
@@ -224,14 +278,11 @@ path.link {
   // Initialize the display to show a few nodes.
   root.children.forEach(toggleAll);
   toggle(root); // 노드 뒤집기
-  //toggle(root.children[1].children[2]);
-  //toggle(root.children[9]);
-  //toggle(root.children[9].children[0]);
 
   update(root);
 });
 
-    function update(source) {
+     function update(source) {
       var duration = d3.event && d3.event.altKey ? 5000 : 500;
 
   // Compute the new tree layout.
@@ -242,12 +293,68 @@ path.link {
 
   // Update the nodes¡¦
   var node = vis.selectAll("g.node")
-  .data(nodes, function(d) { return d.id || (d.id = ++i); });
+  .data(nodes, function(d) { 
+    return d.id || (d.id = ++i);
+  });
+
   // Enter any new nodes at the parent's previous position.
   var nodeEnter = node.enter().append("svg:g")
   .attr("class", "node")
   .attr("transform", function(d) { return "translate(" + source.y0 + "," + source.x0 + ")"; })
-  .on("click", function(d) { toggle(d); update(d); });
+  .on("click", function(d) {
+  //console.log(d); 
+    //console.log(d.name);
+    //console.log(d.depth);
+    if(d.depth==2){
+      console.log(d.parent_node);
+      console.log(d.name);
+      //get_news_list_byreporter("{{bubbleword}}",function(data){
+      get_news_list_byreporter("{{bubbleword}}",d.parent_node,d.name,function(data){
+        //data배열 !
+        $.each(data,function(key,value){
+          //each함수는 배열과 객체를 순회할 목적으로 쓰인다.
+          //배열내 모든 요소에서 function을 수행하고
+          //key에 배열에 인덱스를 전달, value에는 배열에 데이터가 전달됨.
+         //console.log(key);
+          //console.log(value);
+          var item = '<div class="news_item">';
+          if(value.photo_url=="getPhoto_url Error"){
+            //console.log(value.photo_url);
+          }else{
+            item+='<img src="';
+            item+=value.photo_url;
+            item+='" class="image">';
+          }
+          item+='<div class="body">';
+          item+='<div class="head">';
+          item+='<a href="';
+          item+=value.url;
+          item+='" class="title" target="_blank">'; //원본 뉴스 URL넣기
+          item+=value.title;
+          item+='</a>';
+          item+='<p class="date">';
+          item+=value.date;
+          item+='</p>';
+          item+='</div>';
+          item+='<div class="content">';
+          item+=value.body;
+          item+='</div>';
+          item+='<div class="tail">';
+          item+=value.reporter;
+          item+='</div>';
+          item+='</div>';
+          item+='</div>';
+          //console.log(item);
+          $("#news_list_byreporter").append(item);
+          //$("#news_list").append(item); //news_list클래스에 추가
+        });
+      });
+      $("#news_list_byreporter").empty();
+    //});
+    }
+    toggle(d); 
+    update(d);
+  });
 
   nodeEnter.append("svg:circle")
   .attr("r", 1e-6)

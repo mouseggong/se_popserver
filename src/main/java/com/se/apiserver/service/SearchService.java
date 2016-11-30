@@ -23,11 +23,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by LeeHyungRae on 2016. 11. 29..
+ * Created by LeeHyungRae on 2016. 11. 25..
  */
 @Service
 public class SearchService {
-
+    //@Autowired를 이용 상위 패키지가 같으면 get,set 없어도 사용 가능하도록 묶어줌
     @Autowired
     IndexedWordRepository indexedWordRepository;
 
@@ -39,8 +39,8 @@ public class SearchService {
 
     @Autowired
     NewsService newsService;
-
-    public String groupedWordListToCSV(List<GroupedWord> groupedWordList){
+    // 메인 페이지의 버블 키워드를 구성하기 위해 그룹된 단어를 CSV로 바꾼 String으로 구성
+    public String groupedWordBubbleToCSV(List<GroupedWord> groupedWordList){
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("id,value\n");
         for(GroupedWord word : groupedWordList){
@@ -48,9 +48,17 @@ public class SearchService {
         }
         return stringBuilder.toString();
     }
-
+    // Third 페이지의 워드 클라우드를 구성하기 위해 그룹된 단어를 CSV로 바꾼 String으로 구성 (위의 함수와는 필요한 원소가 달라서 다른 함수로 구현)
+    public String groupedWordCloudToCSV(List<GroupedWord> groupedWordList){
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("password,category\n");
+        for(GroupedWord word : groupedWordList){
+            stringBuilder.append(word.getWord()+","+word.getTfidf()+"\n");
+        }
+        return stringBuilder.toString();
+    }
+    //NewsWordRelation 엔티티와 IndexedWord를 이용하여 그룹된 문서들에서 전체 단어의 TF-IDF값을 구함 - TF-IDF크기 순으로 나열
     public List<GroupedWord> getGroupedWordList(List<Integer> newsIdList){
-        long startTime = System.currentTimeMillis();
         List<NewsWordRelation> newsWordRelationList = getNewsWordRelationByNewsIdList(newsIdList);
         List<IndexedWord> indexedWordList = getIndexedWordListByNewsWordRelation(newsWordRelationList);
         Map<Integer,Double> idfMap = getIdfMap(indexedWordList);
@@ -115,11 +123,11 @@ public class SearchService {
         });
         return groupedWordList;
     }
-
+    //List의 정수값에 대응하는 Nid를 가진 뉴스를 가져온다
     public List<NewsContent> searchNewsContent(List<Integer> newsContentIdList){
         return newsContentRepository.findAll(newsContentIdList);
     }
-
+    //검색어를 형태소 분석하여 전체 TF-IDF값을 구하고 그에 따라 정렬 시킨다
     public List<Integer> searchNewsContentIdList(String keyword){
         //검색어를 Stemming
         List<String> wordList = stemmingKeyword(keyword);
@@ -154,7 +162,7 @@ public class SearchService {
             }
         });
     }
-
+    //NewsWordRelation을 받아 Map을 사용하여 매칭시켜 GroupedNewsWordRelation을 반환한다
     public List<GroupedNewsWordRelation> groupingNewsWordRelation(List<NewsWordRelation> newsWordRelationList){
         Map<Integer,GroupedNewsWordRelation> groupedNewsWordRelationMap = Maps.newHashMap();
 
@@ -172,7 +180,7 @@ public class SearchService {
         }
         return Lists.newArrayList(groupedNewsWordRelationMap.values());
     }
-
+    //해당 단어가 포함된 뉴스와 전체뉴스와 검색된 해당 뉴스의 전체 단어수와 해당 기사의 해당 단어의 단어수를 이용하여 TF_IDF를 구한다
     private List<NewsWordRelation> calcTfIdf(List<NewsWordRelation> newsWordRelationList,Map<Integer,Double> idfMap){
         List<NewsWordRelation> calcedNewsWordRelation = Lists.newArrayList();
 
@@ -185,11 +193,11 @@ public class SearchService {
         }
         return calcedNewsWordRelation;
     }
-
+    //뽑혀나온 기사들에서 다시한번 뉴스와 단어의 관계를 찾는다
     private List<NewsWordRelation> getNewsWordRelationByNewsIdList(List<Integer> newsIdList){
         return newsWordRelationRepository.getNewsWordRelationListByNewsIdList(newsIdList);
     }
-
+    //뉴스와 단어의 관계를 이용하여 IndexedWord를 구한다 - 이를통해 단어를 포함하는 기사를 찾을 수 있다
     private List<IndexedWord> getIndexedWordListByNewsWordRelation(List<NewsWordRelation> newsWordRelationList){
         List<Integer> wordIdList = Lists.transform(newsWordRelationList, new Function<NewsWordRelation, Integer>() {
             @Override

@@ -18,7 +18,7 @@ public class NewsService { //컨트롤러에서 함수를 정의했다면 여기
 
     @Autowired
     NewsContentRepository newsContentRepository;
-
+    // NID값과 입력받은 리스트의 정수 값을 비교하여 해당 뉴스들을 반환한다
     public ArrayList<NewsContent> findNewsById(ArrayList<Integer> newsIdList) throws Exception{
         return (ArrayList<NewsContent>) newsContentRepository.findAll(newsIdList);
     }

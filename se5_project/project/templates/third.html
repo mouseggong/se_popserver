@@ -1,9 +1,9 @@
 {% extends 'common.html' %}
 
 {% block content %}
+<!-- 검색한 키워드와 관련있는 뉴스리스트를 출력한다. -->
 <script src="https://d3js.org/d3.v3.min.js"></script>
 <script>
-
   $(window).ready(function(){
       //$(document).ready(function()
       //document를 파라미터로 넘기면, 
@@ -18,11 +18,11 @@
           //each함수는 배열과 객체를 순회할 목적으로 쓰인다.
           //배열내 모든 요소에서 function을 수행하고
           //key에 배열에 인덱스를 전달, value에는 배열에 데이터가 전달됨.
-          console.log(key);
-          console.log(value);
+          //console.log(key);
+          //console.log(value);
           var item = '<div class="news_item">';
           if(value.photo_url=="getPhoto_url Error"){
-            console.log(value.photo_url);
+            //console.log(value.photo_url);
           }else{
             item+='<img src="';
             item+=value.photo_url;
@@ -47,12 +47,11 @@
           item+='</div>';
           item+='</div>';
           item+='</div>';
-          console.log(item);
+          //console.log(item);
           $("#news_list").append(item); //news_list클래스에 추가
         });
       });
     });
-
   </script>
 
   <style type="text/css">
@@ -62,6 +61,10 @@
       max-height:500px;
       overflow-y:scroll;
     }
+    .navbar-nav{
+    height:36px;
+    margin:15px;
+   }
 
   </style>
 
@@ -94,28 +97,30 @@
     }
 
   </style>
-<script>
-  $(window).ready(function(){
-    $("#searchbt").click(function(){
-      window.location="http://localhost:8000/third/"+$("#searchbar").val();
+  <!-- 텍스트창에 검색어를 넣고 버튼을 누르면 spring boot에 요청하여 뉴스 리스트를 출력 -->
+  <script>
+    $(window).ready(function(){
+      $("#searchbt").click(function(){
+        window.location="http://localhost:8000/third/"+$("#searchbar").val();
+      });
     });
-  });
-</script>
+  </script>
 
 
   <body>
-
     <nav class = "navbar navbar-inverse">
-      <div class = "container-fluid">
-        <div class = "navbar-header">
-          <a class="navbar-brand" href="http://localhost:8000"><img src="{{common.host}}/static/images/pop1.jpg" width="100" height="40"></a>
-        </div>
-      </div>
-      <form class="form-inline">
-        <input type="text" id="searchbar" class="form-control" size="50" placeholder="Search what you want" required>
+   <div class = "container-fluid">
+    <div class = "navbar-header">
+     <a class="navbar-brand" href="http://localhost:8000"><img src="{{common.host}}/static/images/pop1.jpg" width="90" height="40"></a>
+    </div>
+    <ul class="navbar-nav">
+    <form class="form-inline">
+    <input type="text" id="searchbar" class="form-control" size="50" placeholder="Search what you want" required>
     <button type="button" id="searchbt" class="btn btn-danger">Search</button>
-      </form>
-    </nav>
+    </form>
+    </ul>
+    </div>
+  </nav>
 
 
 
@@ -144,22 +149,29 @@
               var margin = {top: 2, right: 2, bottom: 4, left: 2},
               width = 1000 - margin.left - margin.right,
               height = 500 - margin.top - margin.bottom;
-
-              d3.csv("{{common.host}}/static/etc/data.csv", function(error, data) {
+              // 검색된 키워드에 따른 워드 클라우드를 구성하기 위한 곳 
+              d3.csv("http://localhost:8080/search/cloud/"+"{{keyword}}", function(error, data) {
 
                 var categories = d3.keys(d3.nest().key(function(d) { 
-                  console.log(d.category);
                   return d.category; }).map(data));
                 var color = d3.scale.ordinal().range(["#66c2a5","#fc8d62","#8da0cb","#e78ac3","#a6d854"]);
                 var fontSize = d3.scale.pow().exponent(5).domain([0,1]).range([10,80]);
 
+                var iterater=-1;
                 var layout = d3.layout.cloud()
                 .timeInterval(10)
                 .size([width, height])
                 .words(data)
                 .rotate(function(d) { return 0; })
                 .font('monospace')
-                .fontSize(function(d,i) { return fontSize(Math.random()); })
+                .fontSize(function(d,i) {
+                  var scale=d3.scale.linear().domain([0,data[0].category]).range([0,1]) 
+                  iterater=iterater+1;
+                //console.log(Math.random());
+                console.log(data);
+                console.log(data[iterater].password);
+                console.log(scale(data[iterater].category));
+                return fontSize(scale(data[iterater].category));})
                 .text(function(d) { return d.password; })
                 .spiral("archimedean")
                 .on("end", draw)

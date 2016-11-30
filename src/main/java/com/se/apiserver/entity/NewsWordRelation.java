@@ -4,7 +4,8 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 /**
- * Created by Ianohjh on 2016-11-23.
+ * 뉴스와 워드의 관계를 나타내주는 테이블 (해당 문서의 해당 단어의 유무와 해당 단어가 몇번 나왔는지를 알 수 있다)
+ * Created by LeeHyungRae on 2016. 11. 22..
  */
 @Entity(name = NewsWordRelation.TABLE_NAME)
 public class NewsWordRelation {
